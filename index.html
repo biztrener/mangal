@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мангал-Групп — Тренажёр возражений</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0E0C;--bg2:#1A1814;--bg3:#222018;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --fire:#E8610A;--fire2:#F5A623;--ember:#C0392B;
+  --coal:#2C2A26;--coal2:#3A3830;
+  --text:#F5F0E8;--text2:#A09880;--text3:#6B6455;
+  --green:#2ECC71;--green-bg:rgba(46,204,113,0.08);--green-border:rgba(46,204,113,0.25);
+  --red:#E74C3C;--red-bg:rgba(231,76,60,0.08);--red-border:rgba(231,76,60,0.25);
+  --amber:#F39C12;--amber-bg:rgba(243,156,18,0.08);--amber-border:rgba(243,156,18,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:20px;}
+.wrap{width:100%;max-width:640px;}
+.fire-header{text-align:center;padding:28px 20px 22px;position:relative;overflow:hidden;border-radius:18px 18px 0 0;background:linear-gradient(160deg,#1C1300 0%,#2A1800 50%,#1C1300 100%);}
+.fire-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(232,97,10,0.35) 0%,transparent 70%);pointer-events:none;}
+.flame-row{display:flex;justify-content:center;gap:4px;margin-bottom:12px;}
+.flame{display:inline-block;font-size:28px;animation:flicker 1.8s ease-in-out infinite;}
+.flame:nth-child(2){animation-delay:.3s;font-size:36px;}
+.flame:nth-child(3){animation-delay:.6s;}
+@keyframes flicker{0%,100%{transform:scaleY(1) rotate(-2deg);}50%{transform:scaleY(1.12) rotate(2deg);}}
+.header-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:800;background:linear-gradient(90deg,#F5A623,#E8610A,#F5A623);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
+.header-sub{font-size:11px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;}
+.gw{background:var(--bg2);border:1px solid var(--border);border-radius:0 0 18px 18px;}
+.screen{padding:20px;}
+.welcome-box{background:linear-gradient(135deg,rgba(232,97,10,0.15),rgba(192,57,43,0.08));border:1.5px solid rgba(232,97,10,0.35);border-radius:16px;padding:18px 18px 15px;margin-bottom:18px;position:relative;overflow:hidden;}
+.welcome-box::before{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;background:radial-gradient(circle,rgba(232,97,10,0.2) 0%,transparent 70%);pointer-events:none;}
+.welcome-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;background:linear-gradient(90deg,var(--fire2),var(--fire));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;line-height:1.4;}
+.welcome-text{font-size:12px;color:#C8B898;line-height:1.75;}
+.welcome-text b{color:var(--text);}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.mode-card{background:var(--bg3);border:1.5px solid var(--border);border-radius:14px;padding:18px 14px;cursor:pointer;transition:all .2s;text-align:center;position:relative;overflow:hidden;}
+.mode-card:hover{border-color:rgba(232,97,10,0.4);background:#1E1C18;}
+.mode-card.active{border-color:var(--fire);background:rgba(232,97,10,0.08);}
+.mode-card.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--fire),transparent);}
+.mode-icon{font-size:28px;display:block;margin-bottom:8px;}
+.mode-title{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.mode-desc{font-size:10px;color:var(--text3);line-height:1.5;}
+.mode-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px;}
+.badge-train{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.badge-exam{background:rgba(232,97,10,0.15);color:var(--fire2);border:1px solid rgba(232,97,10,0.3);}
+.sec{font-family:'Unbounded',sans-serif;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fire);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.sec::before{content:'';width:14px;height:1.5px;background:var(--fire);border-radius:1px;flex-shrink:0;}
+.struct-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;}
+.sg{background:var(--coal);border:1px solid var(--border);border-radius:10px;padding:9px 10px;}
+.sg-num{font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;color:var(--fire);margin-bottom:2px;}
+.sg-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.sg-desc{font-size:9px;color:var(--text3);line-height:1.4;}
+.sg-ex{font-size:9px;color:var(--fire2);margin-top:3px;line-height:1.4;font-style:italic;}
+.struct-note{font-size:10px;color:var(--text3);padding:7px 10px;background:var(--coal);border-radius:8px;border:1px solid var(--border);line-height:1.5;}
+.note{background:rgba(232,97,10,0.07);border:1px solid rgba(232,97,10,0.2);border-radius:10px;padding:10px 12px;font-size:11px;color:#C8B898;line-height:1.65;}
+.note b{color:var(--fire2);}
+.btn-fire{width:100%;background:linear-gradient(135deg,var(--fire),#B8480A);border:none;border-radius:12px;padding:14px;font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:#fff;cursor:pointer;transition:opacity .2s,transform .1s;letter-spacing:.03em;}
+.btn-fire:hover{opacity:.9;}
+.btn-fire:active{transform:scale(.99);}
+.btn-ghost{padding:9px 12px;border-radius:9px;background:var(--coal2);border:1px solid var(--border2);font-family:'Manrope',sans-serif;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;}
+.btn-ghost:hover{background:var(--coal);color:var(--text);}
+.btn-amber{color:var(--amber);border-color:var(--amber-border);}
+.btn-green{color:var(--green);border-color:var(--green-border);}
+.btn-sm{background:var(--coal);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;}
+.btn-sm:hover{color:var(--text);border-color:var(--border2);}
+.btn-fire-sm{background:linear-gradient(135deg,var(--fire),#B8480A);border:none;border-radius:9px;padding:9px 14px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:600;color:#fff;cursor:pointer;transition:opacity .2s;}
+.btn-fire-sm:hover{opacity:.88;}
+.name-box{background:var(--coal);border:1px solid var(--border2);border-radius:12px;padding:18px;margin-bottom:16px;}
+.name-lbl{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;display:block;}
+.name-inp{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:600;color:var(--text);transition:border-color .2s;}
+.name-inp::placeholder{color:var(--text3);font-weight:400;}
+.name-inp:focus{outline:none;border-color:var(--fire);}
+.name-note{font-size:10px;color:var(--text3);margin-top:7px;line-height:1.5;}
+/* TRAIN */
+.gh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.gh-title{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:var(--fire2);}
+.gh-right{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.gh-stat{background:var(--coal);border:1px solid var(--border);border-radius:20px;padding:4px 11px;font-size:10px;font-weight:600;color:var(--text2);}
+.gh-stat b{color:var(--text);}
+.mode-pill{font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.pill-train{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.pill-exam{background:rgba(232,97,10,0.12);color:var(--fire2);border:1px solid rgba(232,97,10,0.25);}
+.train-list{margin-bottom:4px;}
+.train-item{background:var(--coal);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;transition:border-color .2s;}
+.train-item:hover{border-color:var(--border2);}
+.train-item-head{padding:12px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;}
+.ti-num{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--fire2);flex-shrink:0;margin-top:1px;min-width:22px;}
+.ti-content{flex:1;min-width:0;}
+.ti-text{font-size:12px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:2px;}
+.ti-context{font-size:10px;color:var(--text3);line-height:1.4;}
+.ti-badge{flex-shrink:0;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:1px;white-space:nowrap;}
+.ti-badge.done-good{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.ti-badge.done-ok{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
+.ti-badge.done-low{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.ti-badge.todo{background:var(--coal2);color:var(--text3);border:1px solid var(--border);}
+.train-body{display:none;padding:0 14px 14px;}
+.train-step-row{display:flex;gap:3px;margin-bottom:8px;}
+.tstep{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 2px;text-align:center;transition:all .3s;}
+.tstep.found{border-color:rgba(46,204,113,0.5);background:var(--green-bg);}
+.tstep.missing{border-color:rgba(231,76,60,0.4);background:var(--red-bg);}
+.tstep-n{font-family:'Unbounded',sans-serif;font-size:7px;font-weight:700;color:var(--fire);display:block;}
+.tstep-l{font-size:6px;color:var(--text3);display:block;margin-top:1px;line-height:1.3;}
+.tstep.found .tstep-n,.tstep.found .tstep-l{color:var(--green);}
+.tstep.missing .tstep-n,.tstep.missing .tstep-l{color:var(--red);}
+.train-ta{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;padding:10px 12px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--text);resize:vertical;min-height:72px;transition:border-color .2s;line-height:1.6;margin-bottom:8px;}
+.train-ta::placeholder{color:var(--text3);}
+.train-ta:focus{outline:none;border-color:var(--fire);}
+.train-result{border-radius:10px;padding:10px 12px;margin-bottom:8px;display:none;}
+.train-result.show{display:block;}
+.tr-chip{font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:6px;display:inline-block;}
+.tr-chip.great{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+.tr-chip.ok{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber);}
+.tr-chip.low{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);}
+.tr-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;}
+.tr-tag{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:600;}
+.tr-tag.yes{background:var(--green-bg);color:var(--green);}
+.tr-tag.no{background:var(--red-bg);color:var(--red);}
+.tr-fb{font-size:11px;line-height:1.7;color:var(--text2);}
+.tr-fb b{color:var(--text);}
+.train-actions{display:flex;gap:6px;flex-wrap:wrap;}
+/* EXAM */
+.prog-wrap{margin-bottom:12px;}
+.prog-meta{display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-bottom:4px;}
+.prog-track{height:3px;background:var(--coal2);border-radius:2px;overflow:hidden;}
+.prog-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--ember),var(--fire),var(--fire2));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;}
+.obj-card{background:linear-gradient(135deg,rgba(232,97,10,0.10),rgba(192,57,43,0.06));border:1px solid rgba(232,97,10,0.25);border-radius:14px;padding:16px 15px 13px;margin-bottom:10px;animation:fadeUp .4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.obj-eye{font-size:8px;font-weight:700;letter-spacing:.12em;color:rgba(232,97,10,0.7);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:4px;}
+.obj-eye::before{content:'';width:10px;height:1.5px;background:var(--fire);border-radius:1px;}
+.obj-text{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:600;line-height:1.55;color:var(--text);margin-bottom:6px;}
+.obj-context{font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:10px;padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:7px;border-left:2px solid rgba(232,97,10,0.3);}
+.obj-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+.persona-chip{display:inline-flex;align-items:center;gap:5px;background:var(--coal);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;font-size:9px;font-weight:600;color:var(--text2);}
+.persona-dot{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--fire2),var(--fire));flex-shrink:0;}
+.step-row{display:flex;gap:3px;margin-bottom:9px;}
+.step{flex:1;background:var(--coal);border:1px solid var(--border);border-radius:7px;padding:5px 3px;text-align:center;transition:all .35s;}
+.step.found{border-color:rgba(46,204,113,0.5);background:var(--green-bg);}
+.step.missing{border-color:rgba(231,76,60,0.4);background:var(--red-bg);}
+.step-num{font-family:'Unbounded',sans-serif;font-size:8px;font-weight:700;color:var(--fire);display:block;}
+.step-name{font-size:7px;color:var(--text3);display:block;margin-top:1px;line-height:1.3;}
+.step.found .step-num,.step.found .step-name{color:var(--green);}
+.step.missing .step-num,.step.missing .step-name{color:var(--red);}
+.resp-ta{width:100%;background:var(--coal);border:1px solid var(--border2);border-radius:11px;padding:11px 13px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--text);resize:vertical;min-height:80px;transition:border-color .2s;line-height:1.6;margin-bottom:9px;}
+.resp-ta::placeholder{color:var(--text3);}
+.resp-ta:focus{outline:none;border-color:var(--fire);}
+.result-box{display:none;border-radius:12px;padding:12px 14px;margin-bottom:9px;animation:fadeUp .3s ease;}
+.result-box.show{display:block;}
+.res-chip{font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:6px;}
+.res-chip.great{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+.res-chip.ok{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber);}
+.res-chip.low{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);}
+.stag-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:7px;}
+.stag{font-size:9px;padding:2px 9px;border-radius:20px;font-weight:600;}
+.stag.yes{background:var(--green-bg);color:var(--green);}
+.stag.no{background:var(--red-bg);color:var(--red);}
+.fb{font-size:11px;line-height:1.7;color:var(--text2);}
+.fb b{color:var(--text);}
+.exam-actions{display:flex;gap:7px;flex-wrap:wrap;}
+.btn-main{flex:1;min-width:90px;background:linear-gradient(135deg,var(--fire),#B8480A);border:none;border-radius:10px;padding:10px 14px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:600;color:#fff;cursor:pointer;transition:opacity .2s;}
+.btn-main:hover{opacity:.9;}
+.btn-main:disabled{opacity:.35;cursor:not-allowed;}
+/* SCOREBOARDS */
+.sc-icon{font-size:52px;display:block;margin-bottom:8px;text-align:center;}
+.sc-title{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:800;margin-bottom:4px;line-height:1.3;text-align:center;}
+.sc-score-line{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:14px;text-align:center;}
+.sc-breakdown{text-align:left;border-top:1px solid var(--border);padding-top:12px;margin-bottom:16px;max-height:160px;overflow-y:auto;}
+.sc-item{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--border);font-size:10px;gap:8px;}
+.sc-q{color:var(--text3);flex:1;min-width:0;}
+.sc-pts{font-weight:700;font-family:'Unbounded',sans-serif;font-size:9px;color:var(--fire2);flex-shrink:0;}
+.sc-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:4px;}
+.scoreboard{display:none;padding:16px 0;animation:fadeUp .5s ease;}
+.victory{display:none;padding:16px 0;animation:fadeUp .5s ease;}
+.v-fire{font-size:56px;display:block;margin-bottom:10px;text-align:center;animation:flicker 1.2s ease-in-out infinite;}
+.v-title{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:800;line-height:1.3;margin-bottom:6px;text-align:center;background:linear-gradient(90deg,var(--fire2),var(--fire),var(--fire2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.v-sub{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;text-align:center;}
+.v-score{font-family:'Unbounded',sans-serif;font-size:32px;font-weight:800;color:var(--fire2);text-align:center;margin-bottom:2px;}
+.v-score-lbl{font-size:10px;color:var(--text3);margin-bottom:14px;text-align:center;}
+.send-status{font-size:11px;padding:8px 12px;border-radius:8px;margin-bottom:12px;text-align:center;}
+.send-status.sending{background:rgba(232,97,10,0.1);border:1px solid rgba(232,97,10,0.2);color:var(--fire2);}
+.send-status.ok{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+.send-status.err{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber);}
+.train-summary{display:none;padding:16px 0;animation:fadeUp .4s ease;}
+@media(max-width:480px){.struct-grid{grid-template-columns:1fr 1fr;}.mode-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="fire-header">
+  <div class="flame-row"><span class="flame">🔥</span><span class="flame">🔥</span><span class="flame">🔥</span></div>
+  <div class="header-title">МАНГАЛ-ГРУПП</div>
+  <div class="header-sub">Тренажёр возражений · Продажи</div>
+</div>
+<div class="gw">
+
+<!-- INTRO -->
+<div id="s-intro" class="screen">
+  <div class="welcome-box">
+    <div class="welcome-title">Привет, коллега!</div>
+    <div class="welcome-text">Раз ты это открыл — значит, тебе важно <b>развитие в продажах</b>, и это прекрасно!<br><br>Перед тобой тренажёр, который поможет уверенно <b>отрабатывать возражения клиентов</b> — один из ключевых навыков для закрытия сделок на мангальные комплексы.<br><br>Удачи в тренировке и реальных продажах! 💪</div>
+  </div>
+  <div style="margin-bottom:16px;">
+    <div class="sec">Два режима работы</div>
+    <div class="mode-grid">
+      <div class="mode-card active" id="mc-train" onclick="selectMode('train')">
+        <span class="mode-icon">🎯</span>
+        <div class="mode-title">Тренировка</div>
+        <div class="mode-desc">Все возражения открыты. Пиши ответ, получай разбор, переписывай — сколько нужно</div>
+        <span class="mode-badge badge-train">Без давления</span>
+      </div>
+      <div class="mode-card" id="mc-exam" onclick="selectMode('exam')">
+        <span class="mode-icon">🏆</span>
+        <div class="mode-title">Зачёт</div>
+        <div class="mode-desc">5 случайных возражений, одна попытка — результат идёт тренеру</div>
+        <span class="mode-badge badge-exam">На результат</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom:16px;">
+    <div class="sec">Структура сильного ответа</div>
+    <div class="struct-grid">
+      <div class="sg"><div class="sg-num">01</div><div class="sg-name">Присоединение</div><div class="sg-desc">Признай чувство — не соглашайся с возражением</div><div class="sg-ex">«Да, ...» · «Понимаю...» · «Многие...» · «Спасибо, что...»</div></div>
+      <div class="sg"><div class="sg-num">02</div><div class="sg-name">Уточнение</div><div class="sg-desc">Вопрос в середине — снижает давление</div><div class="sg-ex">«А расскажите...?» · «Что для вас важнее всего?»</div></div>
+      <div class="sg"><div class="sg-num">03</div><div class="sg-name">Аргументы</div><div class="sg-desc">Конкретный факт, цифра, опора на ситуацию клиента</div><div class="sg-ex">«Сталь 4 мм...» · «Гарантия 10 лет...» · «Вы говорили, что...»</div></div>
+      <div class="sg"><div class="sg-num">04</div><div class="sg-name">Призыв к действию</div><div class="sg-desc">Конкретный следующий шаг</div><div class="sg-ex">«Давайте подберём...» · «Приезжайте в шоурум»</div></div>
+    </div>
+    <div class="struct-note" style="margin-top:6px;">Уточнение и аргументы могут меняться местами — важна общая логика ответа</div>
+  </div>
+  <div style="margin-bottom:16px;">
+    <div class="note">В <b>тренировке</b> видны все 40 возражений — можно переписывать ответ, пока не получится хорошо. В <b>зачёте</b> — 5 случайных возражений, одна попытка на каждое. Результаты <b>обоих режимов</b> отправляются тренеру.</div>
+  </div>
+  <button class="btn-fire" onclick="goToName()">Начать →</button>
+</div>
+
+<!-- NAME -->
+<div id="s-name" class="screen" style="display:none">
+  <div class="gh"><span class="gh-title">ВХОД</span><button class="btn-sm" onclick="show('s-intro')">← Назад</button></div>
+  <div class="name-box">
+    <span class="name-lbl">Имя и фамилия</span>
+    <input class="name-inp" id="name-inp" type="text" placeholder="Например: Петров Иван" maxlength="60" onkeydown="if(event.key==='Enter')submitName()"/>
+    <div class="name-note">Имя появится в отчёте тренера после тренировки и зачёта.</div>
+  </div>
+  <button class="btn-fire" onclick="submitName()">Продолжить →</button>
+</div>
+
+<!-- TRAIN -->
+<div id="s-train" class="screen" style="display:none">
+  <div class="gh">
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span class="gh-title">ТРЕНИРОВКА</span>
+      <span class="mode-pill pill-train">🎯 Тренировка</span>
+    </div>
+    <div class="gh-right">
+      <div class="gh-stat">Пройдено: <b id="train-done">0</b>/40</div>
+      <button class="btn-sm" onclick="show('s-intro')">← Меню</button>
+    </div>
+  </div>
+  <div class="note" style="margin-bottom:14px;">Все <b>40 возражений</b> открыты — кликни на любое и напиши ответ. Тренажёр покажет, что улучшить, и можно переписать сколько угодно раз.</div>
+  <div class="train-list" id="train-list"></div>
+  <div class="train-summary" id="train-summary">
+    <span class="sc-icon">🎉</span>
+    <div class="sc-title" style="background:linear-gradient(90deg,var(--fire2),var(--fire));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Тренировка завершена!</div>
+    <div class="sc-score-line" id="ts-score"></div>
+    <div class="sc-breakdown" id="train-breakdown"></div>
+    <div class="sc-actions">
+      <button class="btn-ghost" onclick="initTrain()">↺ Сбросить</button>
+      <button class="btn-main" style="flex:none;padding:10px 20px;" onclick="startExam()">Сдать зачёт 🏆</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXAM -->
+<div id="s-exam" class="screen" style="display:none">
+  <div class="gh">
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span class="gh-title">ЗАЧЁТ</span>
+      <span class="mode-pill pill-exam">🏆 Зачёт</span>
+    </div>
+    <div class="gh-right">
+      <div class="gh-stat">Очки: <b id="score-d">0</b></div>
+      <div class="gh-stat"><b id="qn">1</b>/5</div>
+      <button class="btn-sm" onclick="show('s-intro')">← Меню</button>
+    </div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-meta"><span id="prog-lbl">Вопрос 1 из 5</span><span id="prog-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-bar" id="prog-bar"></div></div>
+  </div>
+  <div id="exam-area">
+    <div class="obj-card" id="obj-card">
+      <div class="obj-eye">Возражение клиента</div>
+      <div class="obj-text" id="obj-text"></div>
+      <div class="obj-context" id="obj-context"></div>
+      <div class="obj-footer">
+        <div class="persona-chip"><div class="persona-dot"></div><span id="persona-t"></span></div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step" id="st-0"><span class="step-num">1</span><span class="step-name">Присоединение</span></div>
+      <div class="step" id="st-1"><span class="step-num">2</span><span class="step-name">Уточнение</span></div>
+      <div class="step" id="st-2"><span class="step-num">3</span><span class="step-name">Аргументы</span></div>
+      <div class="step" id="st-3"><span class="step-num">4</span><span class="step-name">Призыв</span></div>
+    </div>
+    <textarea class="resp-ta" id="resp-ta" placeholder="Напишите ответ клиенту — используйте все 4 шага..."></textarea>
+    <div class="result-box" id="result-box">
+      <div class="res-chip" id="res-chip"></div>
+      <div class="stag-row" id="stag-row"></div>
+      <div class="fb" id="fb-text"></div>
+    </div>
+    <div class="exam-actions">
+      <button class="btn-main" id="btn-check" onclick="checkExam()">Проверить →</button>
+      <button class="btn-ghost btn-green" id="btn-next" onclick="nextExamQ()" style="display:none">Далее →</button>
+    </div>
+  </div>
+  <div class="victory" id="exam-result">
+    <span class="v-fire">🔥</span>
+    <div class="v-title" id="v-title"></div>
+    <div class="v-sub" id="v-sub"></div>
+    <div class="v-score" id="v-score"></div>
+    <div class="v-score-lbl">очков из 100</div>
+    <div class="send-status" id="send-status"></div>
+    <div class="sc-breakdown" id="v-breakdown"></div>
+    <div class="sc-actions">
+      <button class="btn-ghost" onclick="startTrain()">🎯 Тренировка</button>
+      <button class="btn-main" style="flex:none;padding:10px 18px;" onclick="startExam()">↺ Пересдать</button>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+const SHEETS_URL='ВСТАВЬТЕ_ВАШ_URL_СЮДА';
+const MAX_PTS=20;
+
+const ALL_QS=[
+  {obj:"Это дорого, у других компаний дешевле",context:"Физлицо. Строит загородный дом, сравнивает предложения онлайн, ориентируется на цену",persona:"Физлицо"},
+  {obj:"Спасибо, подумаю",context:"Физлицо. Был на встрече или созвоне, всем доволен, но не готов решать прямо сейчас",persona:"Физлицо"},
+  {obj:"Надо посоветоваться с женой",context:"Физлицо. Мужчина, решения по дому принимает совместно, жена не в разговоре",persona:"Физлицо"},
+  {obj:"Отправьте КП, посмотрю",context:"B2B. Менеджер компании, собирает предложения для руководителя, сам не решает",persona:"B2B"},
+  {obj:"Как решу — обращусь самостоятельно",context:"Физлицо. Почувствовал давление, хочет выйти из разговора без обязательств",persona:"Физлицо"},
+  {obj:"Давайте ближе к тёплому сезону",context:"Физлицо. Планирует обустройство участка, но не чувствует срочности сейчас",persona:"Физлицо"},
+  {obj:"Пока нет денег",context:"Физлицо. Бюджет в принципе есть, но сейчас не выделен — другие расходы в приоритете",persona:"Физлицо"},
+  {obj:"Сначала посмотрю, что предлагают другие компании",context:"Физлицо или B2B. На этапе сбора предложений, критерии выбора ещё не сформированы",persona:"Физлицо / B2B"},
+  {obj:"Что-то я особо не слышал о вас",context:"Физлицо. Пришёл по рекламе или рекомендации, но бренд Мангал-Групп ему незнаком",persona:"Физлицо"},
+  {obj:"Боюсь, что опыт 4 года — маловато для таких проектов",context:"B2B. Руководитель базы отдыха или ресторана, рассматривает серьёзный объект, сравнивает с более опытными игроками",persona:"B2B"},
+  {obj:"Видел отзыв, что вы сроки задержали",context:"Физлицо или B2B. Изучал компанию перед звонком, нашёл негативный отзыв, насторожился",persona:"Физлицо / B2B"},
+  {obj:"Передам мужу, он будет решать",context:"Физлицо. Женщина, инициатор покупки, но финальное слово за супругом",persona:"Физлицо"},
+  {obj:"Думаю, нужен ли мне такой шикарный комплекс",context:"Физлицо. Есть участок и желание, но сомневается в целесообразности — кажется избыточным",persona:"Физлицо"},
+  {obj:"Переживаю, что семья не поддержит решение поставить мангальный комплекс",context:"Физлицо. Хочет сам, но боится реакции близких — не уверен, что идею одобрят",persona:"Физлицо"},
+  {obj:"Пока не до этого",context:"Физлицо или B2B. Перегружен другими делами, тема интересна, но не в приоритете",persona:"Физлицо / B2B"},
+  {obj:"Уже заказал у другой компании",context:"Физлицо. Сделка почти закрыта с конкурентом, но договор ещё не подписан",persona:"Физлицо"},
+  {obj:"Строительство участка ещё не закончено",context:"Физлицо. Строит дом или благоустраивает участок, объект не готов к установке",persona:"Физлицо"},
+  {obj:"Не уверен, что комплекс впишется в стиль моего участка",context:"Физлицо. Эстетика важна, уже есть сложившийся дизайн участка, боится ошибиться",persona:"Физлицо"},
+  {obj:"Хочу сначала поставить дом, потом думать о мангале",context:"Физлицо. Строится, мангальный комплекс в планах, но считает его вторичным",persona:"Физлицо"},
+  {obj:"Мне кажется, это не так уж важно для отдыха на природе",context:"Физлицо. Привык к простому отдыху, не понимает, какую ценность добавляет комплекс",persona:"Физлицо"},
+  {obj:"У меня маленький участок, не знаю, поместится ли",context:"Физлицо. Участок до 6 соток, боится что конструкция не впишется",persona:"Физлицо"},
+  {obj:"Не понимаю, чем ваш комплекс лучше простого мангала",context:"Физлицо. Уже есть простой мангал, не видит смысла менять на комплекс",persona:"Физлицо"},
+  {obj:"Видел у соседа — выглядит громоздко, не хочу такое",context:"Физлицо. Сформировал мнение по чужому примеру, не знает, что есть разные конфигурации",persona:"Физлицо"},
+  {obj:"Боюсь, что через пару лет это устареет",context:"Физлицо. Осторожный покупатель, сомневается в долгосрочной актуальности вложения",persona:"Физлицо"},
+  {obj:"Читал, что уход за таким комплексом — постоянная головная боль",context:"Физлицо. Нашёл негатив в интернете, опасается сложности в эксплуатации",persona:"Физлицо"},
+  {obj:"Хочу, но жалею денег — понимаю, что это трата, а не вложение",context:"Физлицо. Видит ценность, но психологически не может воспринять это как оправданный расход",persona:"Физлицо"},
+  {obj:"Сделаю сам — у меня есть знакомый сварщик",context:"Физлицо. Хочет сэкономить, не понимает разницы между кустарной работой и производством",persona:"Физлицо"},
+  {obj:"Мы рассматриваем это для базы отдыха, но не понимаем, окупится ли",context:"B2B. Владелец или управляющий базой отдыха, думает об инвестиции, считает экономику",persona:"B2B"},
+  {obj:"Хочу посмотреть живой пример перед покупкой",context:"Физлицо. Визуал важен, не принимает решения без того, чтобы увидеть вживую",persona:"Физлицо"},
+  {obj:"Муж хочет совсем другой вариант",context:"Физлицо. Женщина выбирает, но у супруга другие предпочтения — внутри семьи нет единого мнения",persona:"Физлицо"},
+  {obj:"Слышал, что металл ржавеет через два сезона",context:"Физлицо. Слышал от знакомых или читал в интернете, сомневается в качестве материала",persona:"Физлицо"},
+  {obj:"У вас нет шоурума в нашем городе",context:"Физлицо или B2B. Находится в другом регионе, хочет увидеть вживую, это барьер для покупки",persona:"Физлицо / B2B"},
+  {obj:"Боюсь, что монтаж повредит плитку на участке",context:"Физлицо. Уже сделан ремонт на участке, тревожится за сохранность покрытия при установке",persona:"Физлицо"},
+  {obj:"Не понимаю, чем мангальный комплекс лучше обычного костра",context:"Физлицо. Минималист, привык к простому отдыху, не видит смысла в излишествах",persona:"Физлицо"},
+  {obj:"Стройка закончилась — денег сейчас вообще нет",context:"Физлицо. Только что вложился в строительство или ремонт, бюджет полностью исчерпан",persona:"Физлицо"},
+  {obj:"Друг заказывал у вас, говорит, общение было неудобным",context:"Физлицо. Пришёл по рекомендации, но сама рекомендация неоднозначная — негатив по сервису",persona:"Физлицо"},
+  {obj:"Хочу нестандартный проект, боюсь, что не потяните",context:"B2B или физлицо. Сложный запрос с кастомизацией, сомневается в возможностях компании",persona:"B2B / Физлицо"},
+  {obj:"Некогда заниматься этим вопросом — слишком много дел",context:"B2B. Руководитель или собственник, тема интересна, но нет ресурса погружаться",persona:"B2B"},
+  {obj:"Уже смотрел других — цена у вас выше, обоснуйте",context:"Физлицо или B2B. Собрал несколько предложений, цена Мангал-Групп выше, хочет понять за что",persona:"Физлицо / B2B"},
+  {obj:"Боюсь прогадать — вдруг через год выйдет что-то лучше",context:"Физлицо. Тревожный тип покупателя, откладывает решение из страха сделать неоптимальный выбор",persona:"Физлицо"}
+];
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+let userName='',selectedMode='train';
+let examQ=0,examScore=0,examSessionRes=[],examSessionAnswers=[],examQs=[];
+let trainState={};
+
+function selectMode(m){
+  selectedMode=m;
+  document.getElementById('mc-train').classList.toggle('active',m==='train');
+  document.getElementById('mc-exam').classList.toggle('active',m==='exam');
+}
+
+function goToName(){show('s-name');setTimeout(()=>document.getElementById('name-inp').focus(),100);}
+function submitName(){
+  const v=document.getElementById('name-inp').value.trim();
+  if(!v){document.getElementById('name-inp').focus();return;}
+  userName=v;
+  if(selectedMode==='train') startTrain(); else startExam();
+}
+
+function show(id){['s-intro','s-name','s-train','s-exam'].forEach(s=>document.getElementById(s).style.display=s===id?'block':'none');}
+
+// ── АНАЛИЗАТОР ──
+function analyze(text){
+  const t=text.toLowerCase();
+  const joinOk=['да,','да!','да ','понимаю','понимаем','слышу вас','слышу тебя','действительно','я тоже','мы тоже','многие','вы не поверите','не поверите','спасибо, что','спасибо что','благодарю','разделяю','это важно','это нормально','это понятно','понятный вопрос','логичный вопрос','абсолютно понятно','вполне понятно','ваши опасения','многие клиенты','так бывает','именно поэтому','хороший вопрос','частый вопрос','такое бывает'];
+  const joinStop=['согласен, что не стоит','согласна, что не стоит','понимаю и согласен','понимаю и согласна','да, наверное не стоит','да, это правда плохо','действительно не стоит','действительно лучше не'];
+  const join=joinOk.some(k=>t.includes(k))&&!joinStop.some(k=>t.includes(k));
+  const clarify=['?','расскажите','скажите','уточните','как вы','как ты','что именно','какой','какая','а вы','а ты','а у вас','сколько','почему','когда','как давно','какой участок','какой размер','что важнее','для скольких','как часто','что смотрели','какой бюджет','какой стиль','какие задачи','что останавливает','что смущает','какие сроки','кто принимает'].some(k=>t.includes(k));
+  const argsDirect=['4 мм','6 мм','сталь','толщина','гарантия','термостойк','650','порошков','tig','нержавеющ','покрыт','сезон','мороз','разборн','мобильн','под ключ','шоурум','портфолио','заказов','лет на рынке','производство','кастомизац','индивидуально','под заказ','коптильн','казан','гриль','барбекю','комплекс','компактн','в наличии','срок','рассрочка','рублей','договор','проект','дизайн','конфигурац','монтаж','установк','окупа'];
+  const hasNum=/\d/.test(t);
+  const clientRef=['вы говорили','вы упоминали','вы сказали','ты говорил','в вашей ситуации','учитывая что вы','учитывая, что вы','как вы сами','в вашем случае','для вас важно','раз вы','вы же','ваш участок','ваш проект','ваша семья','вашей компании','для вашего'];
+  const argsStop=['мы лучшие','мы профессионалы','у нас качество','у нас хорошее','всё будет хорошо','мы надёжные','мы давно','у нас всё'];
+  const hasArgsDirect=argsDirect.some(k=>t.includes(k));
+  const hasClientRef=clientRef.some(k=>t.includes(k));
+  const hasOnlyStop=argsStop.some(k=>t.includes(k))&&!hasArgsDirect&&!hasClientRef&&!hasNum;
+  const args=(hasArgsDirect||hasClientRef||(hasNum&&t.length>60))&&!hasOnlyStop;
+  const cta=['давайте','предлагаю','приезжайте','приходите','покажем','рассчитаем','подберём','подберем','запишитесь','запишись','перезвоню','позвоните','свяжемся','отправлю','пришлю','следующий шаг','обсудим','сделаем','начнём','начнем','назначим','посмотрите','каталог','встретимся','созвонимся'].some(k=>t.includes(k));
+  const missing=[];
+  if(!join){if(joinStop.some(k=>t.includes(k)))missing.push('<b>Присоединение</b> — ты согласился с возражением. Признай чувство, но не само возражение');else missing.push('<b>Присоединение</b> — начни с мостика: «Да, ...», «Понимаю...», «Действительно...», «Многие клиенты...», «Спасибо, что...»');}
+  if(!clarify)missing.push('<b>Уточнение</b> — задай вопрос со знаком «?»: что останавливает, какой бюджет, кто принимает решение');
+  if(!args){if(hasOnlyStop)missing.push('<b>Аргументы</b> — «мы качественные» не считается. Нужна конкретика: толщина металла, гарантия, технология, цифры, опора на слова клиента');else missing.push('<b>Аргументы</b> — добавь конкретику: характеристики, гарантия, цифры или опора на ситуацию клиента');}
+  if(!cta)missing.push('<b>Призыв к действию</b> — заверши конкретным шагом: приглашение в шоурум, расчёт, созвон, встреча');
+  return{join,clarify,args,cta,tip:missing.length===0?'Отлично — все 4 шага на месте! 🔥':missing.join('<br>')};
+}
+
+// ── ТРЕНИРОВКА ──
+function startTrain(){trainState={};show('s-train');initTrain();}
+
+function initTrain(){
+  trainState={};
+  document.getElementById('train-done').textContent='0';
+  document.getElementById('train-summary').style.display='none';
+  renderTrainList();
+}
+
+function renderTrainList(){
+  const done=Object.keys(trainState).filter(k=>trainState[k].answered).length;
+  document.getElementById('train-done').textContent=done;
+  document.getElementById('train-list').innerHTML=ALL_QS.map((q,i)=>{
+    const st=trainState[i];
+    const answered=st&&st.answered;
+    const pct2=answered?(st.pts/MAX_PTS):null;
+    const badgeCls=answered?(pct2>=0.75?'done-good':pct2>=0.5?'done-ok':'done-low'):'todo';
+    const badgeTxt=answered?(st.pts+'/'+MAX_PTS):'—';
+    return`<div class="train-item" id="ti-${i}">
+      <div class="train-item-head" onclick="toggleTrain(${i})">
+        <span class="ti-num">${String(i+1).padStart(2,'0')}</span>
+        <div class="ti-content">
+          <div class="ti-text">${q.obj}</div>
+          <div class="ti-context">${q.context}</div>
+        </div>
+        <span class="ti-badge ${badgeCls}">${badgeTxt}</span>
+      </div>
+      <div class="train-body" id="tb-${i}">
+        <div class="train-step-row">
+          ${[['1','Присоединение'],['2','Уточнение'],['3','Аргументы'],['4','Призыв']].map(([n,l],si)=>{
+            const cls=answered?([st.join,st.clarify,st.args,st.cta][si]?'found':'missing'):'';
+            return`<div class="tstep ${cls}"><span class="tstep-n">${n}</span><span class="tstep-l">${l}</span></div>`;
+          }).join('')}
+        </div>
+        <textarea class="train-ta" id="ta-${i}" placeholder="Напишите ответ клиенту...">${(st&&st.answer)||''}</textarea>
+        ${answered?`
+        <div class="train-result show" id="tr-${i}" style="background:${pct2>=0.75?'rgba(46,204,113,0.07)':pct2>=0.5?'rgba(243,156,18,0.07)':'rgba(231,76,60,0.07)'};border:1px solid ${pct2>=0.75?'rgba(46,204,113,0.2)':pct2>=0.5?'rgba(243,156,18,0.2)':'rgba(231,76,60,0.2)'};">
+          <div class="tr-chip ${pct2>=0.75?'great':pct2>=0.5?'ok':'low'}">${st.pts} / ${MAX_PTS} очков</div>
+          <div class="tr-tags">${[['Присоединение',st.join],['Уточнение',st.clarify],['Аргументы',st.args],['Призыв к действию',st.cta]].map(([l,v])=>`<span class="tr-tag ${v?'yes':'no'}">${v?'✓':'✗'} ${l}</span>`).join('')}</div>
+          <div class="tr-fb"><b>Разбор:</b> ${st.tip}</div>
+        </div>
+        <div class="train-actions">
+          <button class="btn-fire-sm" onclick="checkTrain(${i})">Проверить снова →</button>
+          <button class="btn-ghost btn-amber" onclick="resetTrain(${i})">↺ Переписать</button>
+        </div>`
+        :`<div class="train-result" id="tr-${i}"></div>
+        <div class="train-actions">
+          <button class="btn-fire-sm" onclick="checkTrain(${i})">Проверить →</button>
+          <button class="btn-ghost" onclick="showHintTrain(${i})">💡 Подсказка</button>
+        </div>`}
+      </div>
+    </div>`;
+  }).join('');
+  const allDone=Object.keys(trainState).filter(k=>trainState[k].answered).length===ALL_QS.length;
+  if(allDone){
+    const total=Object.values(trainState).reduce((s,v)=>s+v.pts,0);
+    const max=ALL_QS.length*MAX_PTS;
+    document.getElementById('ts-score').textContent=total+' из '+max+' очков ('+Math.round((total/max)*100)+'%)';
+    document.getElementById('train-breakdown').innerHTML=ALL_QS.map((q,i)=>`<div class="sc-item"><span class="sc-q">${q.obj}</span><span class="sc-pts">+${trainState[i]?.pts||0}/${MAX_PTS}</span></div>`).join('');
+    document.getElementById('train-summary').style.display='block';
+    sendToSheets({datetime:new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),name:userName,mode:'Тренировка',score:total,maxScore:max,pct:Math.round((total/max)*100),answers:ALL_QS.map((q,i)=>({obj:q.obj,answer:trainState[i]?.answer||'',pts:trainState[i]?.pts||0,max:MAX_PTS}))},true);
+  }
+}
+
+function toggleTrain(i){
+  const body=document.getElementById('tb-'+i);
+  const open=body.style.display==='block';
+  document.querySelectorAll('.train-body').forEach(b=>b.style.display='none');
+  if(!open){body.style.display='block';setTimeout(()=>document.getElementById('ta-'+i).focus(),50);}
+}
+
+function checkTrain(i){
+  const val=document.getElementById('ta-'+i).value.trim();
+  if(!val){document.getElementById('ta-'+i).focus();return;}
+  const r=analyze(val);
+  const pts=Math.round(MAX_PTS*([r.join,r.clarify,r.args,r.cta].filter(Boolean).length/4));
+  trainState[i]={pts,answer:val,answered:true,join:r.join,clarify:r.clarify,args:r.args,cta:r.cta,tip:r.tip};
+  renderTrainList();
+  setTimeout(()=>{const b=document.getElementById('tb-'+i);if(b)b.style.display='block';},50);
+}
+
+function resetTrain(i){
+  if(trainState[i]){trainState[i].answered=false;trainState[i].pts=0;}
+  renderTrainList();
+  setTimeout(()=>{const b=document.getElementById('tb-'+i);if(b){b.style.display='block';document.getElementById('ta-'+i).focus();}},50);
+}
+
+function showHintTrain(i){
+  // Подсветим контекст карточки как подсказку
+  const hints=[
+    'Не спорьте о цене — сравнивайте состав и ценность. Уточните, что именно он сравнивал.',
+    'Уточните: что именно смущает? Цена, сроки, сомнения в качестве? Не давите.',
+    'Нормально — предложите аргументы, которые помогут ей убедить мужа.',
+    'КП — хорошо, но уточните: кто будет принимать решение и по каким критериям?',
+    'Уточните: что останавливает прямо сейчас? Дайте право выбора.',
+    'Весной — очередь и рост цен. Уточните: к какому сроку планирует участок закончить?',
+    'Уточните: что сейчас в приоритете по расходам? Бюджет можно зарезервировать.',
+    'Уточните: по каким критериям выбирает? Помогите структурировать выбор в свою пользу.',
+    'Расскажите о компании конкретно: сколько проектов, отзывы, портфолио.',
+    'Покажите сложные реализованные проекты. 4 года — это сотни комплексов.',
+    'Не отрицайте. Уточните, что именно читал, разберите кейс.',
+    'Предложите аргументы, которые помогут ей объяснить мужу ценность.',
+    'Уточните: как часто принимает гостей? Покажите, как комплекс меняет качество отдыха.',
+    'Уточните: кто именно в семье сомневается? Предложите встречу всей семьёй.',
+    'Уточните: что сейчас в приоритете? Можно начать с проекта и вернуться позже.',
+    'Уточните: договор подписан? Если нет — есть шанс переиграть.',
+    'Уточните: когда планируют закончить? Предложите начать с проекта заранее.',
+    'Покажите кастомные проекты в разных стилях. Уточните: какой стиль участка?',
+    'Уточните: когда планируют поставить дом? Запроектировать можно уже сейчас.',
+    'Уточните: как обычно проходит отдых? Покажите, что меняет комплекс.',
+    'Уточните размеры участка. Есть компактные версии от 1,5×1 м.',
+    'Покажите функциональные отличия: многозонность, коптильня, казан — всё в одном.',
+    'Уточните: что именно у соседа? Покажите другие конфигурации — компактные и лаконичные.',
+    'Комплекс — это навсегда. Металл 4 мм служит 15–20 лет. Уточните, что беспокоит.',
+    'Конкретика: обработка раз в сезон, чехол — и всё. Уточните, что именно читал.',
+    'Уточните: на что планирует потратить эти деньги? Помогите сравнить альтернативы.',
+    'Уточните: сварщик делал похожие комплексы? Покажите разницу в производстве.',
+    'Уточните: какой объём, сколько мест, как часто планируют мероприятия? Посчитайте вместе.',
+    'Уточните: в каком городе? Предложите фото, видео, выезд менеджера или доставку образца.',
+    'Уточните: чей вариант, в чём расхождение? Предложите встречу вместе.',
+    'Конкретика: сталь 4 мм, термостойкое покрытие 650°C, гарантия 3 года.',
+    'Уточните: в каком городе? Предложите видеотур, выезд менеджера или шоурум в ближайшем городе.',
+    'Уточните: какое покрытие? Технология монтажа не затрагивает плитку — покажите кейсы.',
+    'Уточните: как сейчас жарит мясо? Покажите разницу в качестве блюд и удобстве.',
+    'Уточните: когда закончилась стройка? Предложите зафиксировать цену сейчас — оплата позже.',
+    'Уточните: что именно было неудобным? Покажите, как выстроен процесс сейчас.',
+    'Уточните: что значит нестандартный? Покажите самые сложные реализованные проекты.',
+    'Уточните: что сейчас в топе задач? Предложите делегировать вопрос вам — сделаем сами.',
+    'Уточните: с кем сравнивал? Разберите отличия по конкретным позициям.',
+    'Уточните: что именно боится упустить? Комплексы не меняются революционно — это не гаджеты.'
+  ];
+  alert('💡 Подсказка:\n\n'+hints[i]);
+}
+
+// ── ЗАЧЁТ ──
+function startExam(){
+  examQ=0;examScore=0;examSessionRes=[];examSessionAnswers=[];
+  examQs=shuffle(ALL_QS).slice(0,5);
+  document.getElementById('score-d').textContent='0';
+  document.getElementById('exam-result').style.display='none';
+  document.getElementById('exam-area').style.display='block';
+  show('s-exam');loadExamQ();
+}
+
+function loadExamQ(){
+  if(examQ>=5){showExamScore();return;}
+  const q=examQs[examQ];
+  document.getElementById('obj-text').textContent=q.obj;
+  document.getElementById('obj-context').textContent=q.context;
+  document.getElementById('persona-t').textContent=q.persona;
+  document.getElementById('resp-ta').value='';
+  const rb=document.getElementById('result-box');rb.classList.remove('show');rb.style.cssText='';
+  document.getElementById('btn-check').style.display='';document.getElementById('btn-check').disabled=false;
+  document.getElementById('btn-next').style.display='none';
+  document.getElementById('qn').textContent=examQ+1;
+  const pct=Math.round((examQ/5)*100);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-lbl').textContent='Вопрос '+(examQ+1)+' из 5';
+  [0,1,2,3].forEach(i=>document.getElementById('st-'+i).className='step');
+  const card=document.getElementById('obj-card');card.style.animation='none';card.offsetHeight;card.style.animation='fadeUp .4s ease';
+}
+
+function checkExam(){
+  const val=document.getElementById('resp-ta').value.trim();
+  if(!val){document.getElementById('resp-ta').focus();return;}
+  document.getElementById('btn-check').disabled=true;
+  const r=analyze(val);
+  const pts=Math.round(MAX_PTS*([r.join,r.clarify,r.args,r.cta].filter(Boolean).length/4));
+  examScore+=pts;
+  const q=examQs[examQ];
+  examSessionRes.push({obj:q.obj,pts,max:MAX_PTS});
+  examSessionAnswers.push({obj:q.obj,answer:val,pts,max:MAX_PTS});
+  document.getElementById('score-d').textContent=examScore;
+  [r.join,r.clarify,r.args,r.cta].forEach((v,i)=>document.getElementById('st-'+i).classList.add(v?'found':'missing'));
+  const pct2=pts/MAX_PTS;
+  const chipCls=pct2>=0.75?'great':pct2>=0.5?'ok':'low';
+  const chip=document.getElementById('res-chip');chip.className='res-chip '+chipCls;chip.textContent='+'+pts+' из '+MAX_PTS;
+  document.getElementById('stag-row').innerHTML=[['Присоединение',r.join],['Уточнение',r.clarify],['Аргументы',r.args],['Призыв к действию',r.cta]].map(([l,v])=>`<span class="stag ${v?'yes':'no'}">${v?'✓':'✗'} ${l}</span>`).join('');
+  document.getElementById('fb-text').innerHTML='<b>Разбор:</b> '+r.tip;
+  const rb=document.getElementById('result-box');
+  rb.style.background=pct2>=0.75?'rgba(46,204,113,0.07)':pct2>=0.5?'rgba(243,156,18,0.07)':'rgba(231,76,60,0.07)';
+  rb.style.border=pct2>=0.75?'1px solid rgba(46,204,113,0.2)':pct2>=0.5?'1px solid rgba(243,156,18,0.2)':'1px solid rgba(231,76,60,0.2)';
+  rb.classList.add('show');
+  document.getElementById('btn-check').style.display='none';
+  document.getElementById('btn-next').style.display='';
+}
+
+function nextExamQ(){examQ++;loadExamQ();}
+
+function showExamScore(){
+  document.getElementById('exam-area').style.display='none';
+  document.getElementById('exam-result').style.display='block';
+  document.getElementById('prog-bar').style.width='100%';document.getElementById('prog-pct').textContent='100%';
+  const pct=Math.round((examScore/100)*100);
+  const perfect=pct>=90,good=pct>=70;
+  document.getElementById('v-title').textContent=perfect?'ТЫ ПРОСТО 🔥':good?'ТЫ МОЛОДЕЦ!':'ЕЩЁ НЕМНОГО ПРАКТИКИ!';
+  document.getElementById('v-sub').textContent=perfect?'Идеальная структура в каждом ответе! К рабочему дню готов(а) на все 100% — идём продавать! 🚀':good?'Уверенная работа с возражениями! К рабочему дню готов(а) — идём продавать! 💪':'Не всё получилось с первого раза — это нормально. Ещё потренируйся и пересдай!';
+  document.getElementById('v-score').textContent=examScore;
+  document.getElementById('v-breakdown').innerHTML=examSessionRes.map(r=>`<div class="sc-item"><span class="sc-q">${r.obj}</span><span class="sc-pts">+${r.pts}/${r.max}</span></div>`).join('');
+  sendToSheets({datetime:new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),name:userName,mode:'Зачёт',score:examScore,maxScore:100,pct,result:document.getElementById('v-title').textContent,answers:examSessionAnswers},false);
+}
+
+async function sendToSheets(payload,isTrain){
+  const ss=isTrain?null:document.getElementById('send-status');
+  if(ss){ss.className='send-status sending';ss.textContent='Отправляю результаты тренеру...';}
+  try{
+    await fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(ss){ss.className='send-status ok';ss.textContent='Результаты отправлены тренеру ✓';}
+  }catch(e){
+    if(ss){ss.className='send-status err';ss.textContent='Не удалось отправить — сделайте скриншот и отправьте тренеру.';}
+  }
+}
+</script>
+</body>
+</html>
